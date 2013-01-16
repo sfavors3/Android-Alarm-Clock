@@ -66,7 +66,7 @@ public class AlarmActivity extends ListActivity implements
 				return true;
 			}
 		});
-		
+
 		mathAlarmListView = (ListView) findViewById(android.R.id.list);
 
 		mathAlarmListView.setLongClickable(true);
@@ -89,8 +89,7 @@ public class AlarmActivity extends ListActivity implements
 							public void onClick(DialogInterface dialog,
 									int which) {
 
-								alarmListAdapter.getMathAlarms().remove(
-										alarm);
+								alarmListAdapter.getMathAlarms().remove(alarm);
 								alarmListAdapter.notifyDataSetChanged();
 
 								Database.init(AlarmActivity.this);
@@ -147,8 +146,7 @@ public class AlarmActivity extends ListActivity implements
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		Alarm alarm = (Alarm) alarmListAdapter
-				.getItem(position);
+		Alarm alarm = (Alarm) alarmListAdapter.getItem(position);
 		Intent intent = new Intent(AlarmActivity.this,
 				AlarmPreferencesActivity.class);
 		intent.putExtra("alarm", alarm);
@@ -159,14 +157,16 @@ public class AlarmActivity extends ListActivity implements
 	public void onClick(View v) {
 		if (v.getId() == R.id.checkBox_alarm_active) {
 			CheckBox checkBox = (CheckBox) v;
-			Alarm alarm = (Alarm) alarmListAdapter
-					.getItem((Integer) checkBox.getTag());
+			Alarm alarm = (Alarm) alarmListAdapter.getItem((Integer) checkBox
+					.getTag());
 			alarm.setAlarmActive(checkBox.isChecked());
 			Database.update(alarm);
 			AlarmActivity.this.callMathAlarmScheduleService();
-			Toast.makeText(AlarmActivity.this,
-					alarm.getTimeUntilNextAlarmMessage(), Toast.LENGTH_LONG)
-					.show();
+			if (checkBox.isChecked()) {
+				Toast.makeText(AlarmActivity.this,
+						alarm.getTimeUntilNextAlarmMessage(), Toast.LENGTH_LONG)
+						.show();
+			}
 		}
 
 	}
@@ -182,8 +182,7 @@ public class AlarmActivity extends ListActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_item_rate:
-			Uri uri = Uri.parse("market://details?id="
-					+ getPackageName());
+			Uri uri = Uri.parse("market://details?id=" + getPackageName());
 			Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
 			try {
 				startActivity(goToMarket);
